@@ -72,9 +72,14 @@ let activeTile = undefined;
 function animate() {
   requestAnimationFrame(animate)
   c.drawImage(bg, 0, 0);
-  enemies.forEach((enemy) => {
+  // enemies.forEach((enemy) => {
+  //   enemy.update()
+  // });
+  for (let i = enemies.length - 1; i >= 0; i--) {
+    const enemy = enemies[i];
     enemy.update()
-  });
+  }
+
   placementTiles.map((tile) => {
     tile.update(mouse)
   })
@@ -100,6 +105,15 @@ function animate() {
       const distance = Math.hypot(xDifference, yDifference)
       // 計算是否碰撞到物件
       if (distance < projectile.enemy.radius + projectile.radius) {
+        projectile.enemy.health -= 20;
+        if (projectile.enemy.health <= 0) {
+          const enemyIndex = enemies.findIndex((enemy) => {
+            return projectile.enemy === enemy
+          })
+
+          if (enemyIndex > -1) enemies.splice(enemyIndex, 1)
+        }
+        // console.log(projectile.enemy.health);
         building.projectiles.splice(i, 1)
       }
       // console.log(distance);

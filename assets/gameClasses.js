@@ -46,15 +46,24 @@ export class Enemy {
       y: this.position.y + this.height / 2,
     }
     this.radius = 50;
+    this.health = 100;
   }
 
   // 和原本draw orc 相同
   draw() {
     c.fillStyle = 'red';
+    // 方形
     // c.fillRect(this.position.x, this.position.y, this.width, this.height);
+    // 圓型
     c.beginPath();
     c.arc(this.center.x, this.center.y, this.radius, 0, Math.PI * 2);
     c.fill();
+
+    // 血條
+    c.fillStyle = 'red';
+    c.fillRect(this.position.x, this.position.y - 15, this.width, 10);
+    c.fillStyle = 'green';
+    c.fillRect(this.position.x, this.position.y - 15, this.width * this.health / 100, 10);
   }
 
   update() {
@@ -103,7 +112,7 @@ export class Projectile {
     c.fill();
   }
 
-  update(enemies) {
+  update() {
     this.draw();
     // 這裡處理塔所射出的攻擊，會去追蹤怪物的物件
     const angle = Math.atan2(
