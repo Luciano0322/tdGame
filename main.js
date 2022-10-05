@@ -80,7 +80,30 @@ function animate() {
   })
 
   buildings.map((building) => {
-    building.draw()
+    building.update();
+    building.target = null;
+    const validEnemies = enemies.filter((enemy) => {
+      const xDifference = enemy.center.x - building.center.x
+      const yDifference = enemy.center.y - building.center.y
+      const distance = Math.hypot(xDifference, yDifference)
+      return distance < enemy.radius + building.radius
+    })
+    building.target = validEnemies[0]
+    // console.log(validEnemies);
+
+    for (let i = building.projectiles.length - 1; i >= 0; i--) {
+      const projectile = building.projectiles[i];
+      projectile.update(enemies)
+  
+      const xDifference = projectile.enemy.center.x - projectile.position.x
+      const yDifference = projectile.enemy.center.y - projectile.position.y
+      const distance = Math.hypot(xDifference, yDifference)
+      // 計算是否碰撞到物件
+      if (distance < projectile.enemy.radius + projectile.radius) {
+        building.projectiles.splice(i, 1)
+      }
+      // console.log(distance);
+    }
   })
   // enemy.update();
   // enemy2.update();
@@ -102,11 +125,10 @@ canvas.addEventListener('click', (evt) => {
       position: {
         x: activeTile.position.x,
         y: activeTile.position.y,
-      }
+      },
     }))
     activeTile.isOccupied = true;
   }
-  console.log(buildings)
 })
 
 window.addEventListener('mousemove', (event) => {
