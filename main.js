@@ -54,20 +54,24 @@ bg.src = 'assets/gameMap.png';
 
 // 一波攻擊的概念
 const enemies = [];
-for (let i = 1; i < 10; i++) {
-  // 間距
-  const xOffset = i * 150
-  enemies.push(new Enemy({
-    position: {
-      x: waypoints[0].x - xOffset,
-      y: waypoints[0].y
-    }
-  }))
+
+function spawnEnemies(spawnCount) {
+  for (let i = 1; i < spawnCount + 1; i++) {
+    // 間距
+    const xOffset = i * 150
+    enemies.push(new Enemy({
+      position: {
+        x: waypoints[0].x - xOffset,
+        y: waypoints[0].y
+      }
+    }))
+  }
 }
 
 const buildings = [];
 let activeTile = undefined;
-
+let enemyCount = 3
+spawnEnemies(enemyCount);
 // make a infinite loop
 function animate() {
   requestAnimationFrame(animate)
@@ -105,13 +109,18 @@ function animate() {
       const distance = Math.hypot(xDifference, yDifference)
       // 計算是否碰撞到物件
       if (distance < projectile.enemy.radius + projectile.radius) {
+        // 怪物血條與消失
         projectile.enemy.health -= 20;
         if (projectile.enemy.health <= 0) {
           const enemyIndex = enemies.findIndex((enemy) => {
             return projectile.enemy === enemy
           })
-
           if (enemyIndex > -1) enemies.splice(enemyIndex, 1)
+        }
+        // 追蹤總怪物的數量
+        if (enemies.length === 0) {
+          enemyCount += 2
+          spawnEnemies(enemyCount)
         }
         // console.log(projectile.enemy.health);
         building.projectiles.splice(i, 1)
