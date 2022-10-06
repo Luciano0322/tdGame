@@ -81,7 +81,7 @@ export class Enemy {
     const angle = Math.atan2(yDistance, xDistance);
 
     // 設定速度
-    const speed = 10
+    const speed = 3
 
     this.velocity.x = Math.cos(angle) * speed;
     this.velocity.y = Math.sin(angle) * speed;
