@@ -1,6 +1,8 @@
-import './style.css'
-import { placementTilesData, waypoints } from './assets/waypoints'
-import { Building, Enemy, PlacementTile } from './assets/gameClasses';
+import './style.css';
+import { placementTilesData, waypoints } from './classes/waypoints';
+import { Building } from './classes/Building';
+import { Enemy } from './classes/Enemy';
+import { PlacementTile } from './classes/PlacementTile';
 
 // app wrapper
 const app = document.getElementById('app');
