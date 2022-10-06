@@ -113,7 +113,7 @@ const bg = new Image();
 bg.onload = () => {
   animate();
 }
-bg.src = 'assets/gameMap.png';
+bg.src = 'assets/imgs/gameMap.png';
 
 // 固定式寫法
 // const enemy = new Enemy({ position: { x: waypoints[0].x, y: waypoints[0].y }});
