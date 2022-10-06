@@ -1,10 +1,18 @@
 import { c } from "../main";
+import { Sprite } from "./Sprite";
 import { waypoints } from "./waypoints";
 
 // 怪物物件
-export class Enemy {
-  constructor({ position = { x: 0, y: 0 }}) {
-    this.position = position;
+export class Enemy extends Sprite {
+  constructor({ position = { x: 0, y: 0 } }) {
+    super({ 
+      position, 
+      imageSrc: 'assets/imgs/orc.png',
+      frames: {
+        max: 7
+      } 
+    })
+    // this.position = position;
     this.width = 100;
     this.height = 100;
     this.waypointIndex = 0;
@@ -25,13 +33,14 @@ export class Enemy {
 
   // 和原本draw orc 相同
   draw() {
-    c.fillStyle = 'red';
-    // 方形
-    // c.fillRect(this.position.x, this.position.y, this.width, this.height);
-    // 圓型
-    c.beginPath();
-    c.arc(this.center.x, this.center.y, this.radius, 0, Math.PI * 2);
-    c.fill();
+    super.draw()
+    // c.fillStyle = 'red';
+    // // 方形
+    // // c.fillRect(this.position.x, this.position.y, this.width, this.height);
+    // // 圓型
+    // c.beginPath();
+    // c.arc(this.center.x, this.center.y, this.radius, 0, Math.PI * 2);
+    // c.fill();
 
     // 血條
     c.fillStyle = 'red';
