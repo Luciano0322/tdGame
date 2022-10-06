@@ -3,6 +3,7 @@ import { placementTilesData, waypoints } from './classes/waypoints';
 import { Building } from './classes/Building';
 import { Enemy } from './classes/Enemy';
 import { PlacementTile } from './classes/PlacementTile';
+import { Sprite } from './classes/Sprite';
 
 // app wrapper
 const app = document.getElementById('app');
@@ -137,11 +138,13 @@ function spawnEnemies(spawnCount) {
   }
 }
 
+// game setting
 const buildings = [];
 let activeTile = undefined;
 let enemyCount = 3;
 let hearts = 10;
 let coins = 100;
+const explosions = [];
 spawnEnemies(enemyCount);
 // make a infinite loop
 function animate() {
@@ -165,6 +168,16 @@ function animate() {
         cancelAnimationFrame(animationId)
         document.querySelector('#gameOverTxt').style.display = 'flex';
       }
+    }
+  }
+
+  for (let i = explosions.length - 1; i >= 0; i--) {
+    const explosion = explosions[i];
+    explosion.draw()
+    explosion.update()
+
+    if (explosion.frames.current >= explosion.frames.max - 1) {
+      explosions.splice(i, 1)
     }
   }
 
@@ -213,7 +226,23 @@ function animate() {
         }
         
         // console.log(projectile.enemy.health);
-        building.projectiles.splice(i, 1)
+        explosions.push(
+          new Sprite({
+            position: {
+              x: projectile.position.x,
+              y: projectile.position.y,
+            },
+            imageSrc: 'assets/imgs/explosion.png',
+            frames: {
+              max: 4
+            },
+            offset: {
+              x: 0,
+              y: 0
+            }
+          })
+        );
+        building.projectiles.splice(i, 1);
       }
       // console.log(distance);
     }
