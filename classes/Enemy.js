@@ -7,7 +7,7 @@ export class Enemy extends Sprite {
   constructor({ position = { x: 0, y: 0 } }) {
     super({ 
       position, 
-      imageSrc: 'assets/imgs/orc.png',
+      imageSrc: 'imgs/orc.png',
       frames: {
         max: 7
       } 

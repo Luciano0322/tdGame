@@ -116,7 +116,7 @@ const bg = new Image();
 bg.onload = () => {
   animate();
 }
-bg.src = 'assets/imgs/gameMap.png';
+bg.src = 'imgs/gameMap.png';
 
 // 固定式寫法
 // const enemy = new Enemy({ position: { x: waypoints[0].x, y: waypoints[0].y }});
@@ -232,7 +232,7 @@ function animate() {
               x: projectile.position.x,
               y: projectile.position.y,
             },
-            imageSrc: 'assets/imgs/explosion.png',
+            imageSrc: 'imgs/explosion.png',
             frames: {
               max: 4
             },

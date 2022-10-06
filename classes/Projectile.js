@@ -4,7 +4,7 @@ import { Sprite } from "./Sprite";
 // 射程範圍
 export class Projectile extends Sprite {
   constructor({position = {x: 0, y: 0}, enemy}) {
-    super({ position, imageSrc: 'assets/imgs/projectile.png' })
+    super({ position, imageSrc: 'imgs/projectile.png' })
     // 因為 extends 的關係，可以打回去原本的 Sprite 裏面
     // this.position = position;
     this.velocity = {
