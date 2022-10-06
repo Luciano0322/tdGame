@@ -243,6 +243,10 @@ canvas.addEventListener('click', (evt) => {
       },
     }))
     activeTile.isOccupied = true;
+    // 調整塔的渲染順序
+    buildings.sort((a, b) => {
+      return a.position.y - b.position.y
+    })
   }
 })
 
