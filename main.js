@@ -2,6 +2,27 @@ import './style.css'
 import { placementTilesData, waypoints } from './assets/waypoints'
 import { Building, Enemy, PlacementTile } from './assets/gameClasses';
 
+const app = document.getElementById('app');
+app.style.position = 'relative';
+app.style.display = 'inline-block';
+const gameOverTxt = document.createElement("div");
+gameOverTxt.appendChild(document.createTextNode("GAME OVER"));
+gameOverTxt.id = 'gameOverTxt';
+gameOverTxt.style.position = 'absolute';
+gameOverTxt.style.top = 0;
+gameOverTxt.style.bottom = 0;
+gameOverTxt.style.left = 0;
+gameOverTxt.style.right = 0;
+gameOverTxt.style.display = 'none';
+gameOverTxt.style.justifyContent = 'center';
+gameOverTxt.style.alignItems = 'center';
+gameOverTxt.style.fontSize = '72px';
+gameOverTxt.style.fontWeight = 'bold';
+gameOverTxt.style.color = 'white';
+gameOverTxt.style.textShadow = '2px 2px 5px #888';
+
+app.appendChild(gameOverTxt)
+
 const canvas = document.querySelector('canvas');
 export const c = canvas.getContext('2d');
 
@@ -70,11 +91,12 @@ function spawnEnemies(spawnCount) {
 
 const buildings = [];
 let activeTile = undefined;
-let enemyCount = 3
+let enemyCount = 3;
+let hearts = 10;
 spawnEnemies(enemyCount);
 // make a infinite loop
 function animate() {
-  requestAnimationFrame(animate)
+  const animationId = requestAnimationFrame(animate);
   c.drawImage(bg, 0, 0);
   // enemies.forEach((enemy) => {
   //   enemy.update()
@@ -82,6 +104,24 @@ function animate() {
   for (let i = enemies.length - 1; i >= 0; i--) {
     const enemy = enemies[i];
     enemy.update()
+
+    if (enemy.position.x > canvas.width) {
+      hearts -= 1;
+      enemies.splice(i, 1);
+      console.log(hearts);
+
+      if (hearts === 0) {
+        console.log('game over');
+        cancelAnimationFrame(animationId)
+        document.querySelector('#gameOverTxt').style.display = 'flex';
+      }
+    }
+  }
+
+  // 追蹤總怪物的數量
+  if (enemies.length === 0) {
+    enemyCount += 2
+    spawnEnemies(enemyCount)
   }
 
   placementTiles.map((tile) => {
@@ -117,11 +157,7 @@ function animate() {
           })
           if (enemyIndex > -1) enemies.splice(enemyIndex, 1)
         }
-        // 追蹤總怪物的數量
-        if (enemies.length === 0) {
-          enemyCount += 2
-          spawnEnemies(enemyCount)
-        }
+        
         // console.log(projectile.enemy.health);
         building.projectiles.splice(i, 1)
       }
